@@ -1,4 +1,4 @@
-tripasia
-========
+tripasia EXPERIMENTS
+====================
 
-TripAsia Custom Wordpress Theme based on Sequel and TwentyFourteen
+Experiments with tripasiaonline.com wordpress theme
