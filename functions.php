@@ -269,17 +269,44 @@ add_action( 'init', 'my_add_excerpts_to_pages' );
 =            Make Archives.php Include Custom Post Types            =
 ===================================================================*/
 
-function namespace_add_custom_types( $query ) {
-  if( is_category() || is_tag() && empty( $query->query_vars['suppress_filters'] ) ) {
-    $query->set( 'post_type', array(
-     'post', 'nav_menu_item', 'country'
-		));
-	  return $query;
-	}
-}
-add_filter( 'pre_get_posts', 'namespace_add_custom_types' );
+// function namespace_add_custom_types( $query ) {
+//   if( is_category() || is_tag() && empty( $query->query_vars['suppress_filters'] ) ) {
+//     $query->set( 'post_type', array(
+//      'post', 'nav_menu_item', 'country'
+// 		));
+// 	  return $query;
+// 	}
+// }
+// add_filter( 'pre_get_posts', 'namespace_add_custom_types' );
 
 /*-----  End of Make Archives.php Include Custom Post Types  ------*/
+
+// FOR CUSTOM CATAGORY ARCHIVE
+function any_ptype_on_cat($request) {
+	if ( isset($request['category_name']) )
+		$request['post_type'] = 'any';
+
+	return $request;
+}
+add_filter('request', 'any_ptype_on_cat');
+
+
+// FOR CUSTOM TAG ARCHIVE
+if (!function_exists('my_theme_filter')) {
+    function my_theme_filter( $query ){
+
+	    if ( $query->is_main_query() )
+	        if ( $query->get( 'tag' ) OR is_search() )
+	        // if ( $query->get( 'tag' ) || is_search() )
+	            $query->set( 'post_type', array( 'mood' ) );
+
+	    //echo '<pre>'; print_r($query); echo '</pre>';
+
+	    return $query;
+	}
+}
+// add_filter( 'pre_get_posts', 'my_theme_filter' );
+// THIS IS NOT WORKING. THIS IS MAKING TAG ARCHIVE FAIL TO LOAD
 
 
 
